@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Chat App</title>
+  <style>
+    body { font-family: sans-serif; background: #97d3ed; margin: 0; padding: 100; display: flex; flex-direction: column; height: 100vh; }
+    .chat-container { flex: 1; display: flex; flex-direction: column; max-width: 1000px; margin: auto; border: 5px solid #171515; background: #fff; }
+    .chat-box { flex: 1; padding: 10px; overflow-y: auto; border-bottom: 5px solid #041522; }
+    .chat-message { margin: 5px 0; padding: 10px; background: #f5b9e2; border-radius: 70px; max-width: 90%; }
+    .input-area { display: flex; padding: 10px; gap: 5px; background: #f7a2a2; }
+    input[type="text"] { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #f38aff; }
+    button { padding: 10px; border: none; background: #010b01; color: rgb(254, 252, 255); border-radius: 10px; cursor: pointer; }
+    select { padding: 10px; border-radius: 5px; border: 1px solid #b2f5b3; }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div id="chat-box" class="chat-box"></div>
+    <div class="input-area">
+      <select id="emoji-picker">
+        <option value="">😊</option>
+        <option value="😂">😂</option>
+        <option value="❤️">❤️</option>
+        <option value="👍">👍</option>
+        <option value="😎">😎</option>
+        <option value="🎉">🎉</option>
+      </select>
+      <input type="text" id="message-input" placeholder="Type a message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const messageInput = document.getElementById('message-input');
+    const emojiPicker = document.getElementById('emoji-picker');
+
+    emojiPicker.addEventListener('change', () => {
+      messageInput.value += emojiPicker.value;
+      emojiPicker.selectedIndex = 0;
+    });
+
+    function sendMessage() {
+      const message = messageInput.value.trim();
+      if (message === '') return;
+
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('chat-message');
+      msgDiv.textContent = message;
+      chatBox.appendChild(msgDiv);
+
+      messageInput.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>

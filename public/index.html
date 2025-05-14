@@ -1,64 +1,108 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simple Chat App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secured chat app</title>
   <style>
-    body { font-family: sans-serif; background: #97d3ed; margin: 0; padding: 100; display: flex; flex-direction: column; height: 100vh; }
-    .chat-container { flex: 1; display: flex; flex-direction: column; max-width: 1000px; margin: auto; border: 5px solid #171515; background: #fff; }
-    .chat-box { flex: 1; padding: 10px; overflow-y: auto; border-bottom: 5px solid #041522; }
-    .chat-message { margin: 5px 0; padding: 10px; background: #f5b9e2; border-radius: 70px; max-width: 90%; }
-    .input-area { display: flex; padding: 10px; gap: 5px; background: #f7a2a2; }
-    input[type="text"] { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #f38aff; }
-    button { padding: 10px; border: none; background: #010b01; color: rgb(254, 252, 255); border-radius: 10px; cursor: pointer; }
-    select { padding: 10px; border-radius: 5px; border: 1px solid #b2f5b3; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #8cc9f2;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 500px;
+      height: 80vh;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background-color: #e9ecef;
+    }
+
+    .chat-message {
+      background-color: #d1e7ff;
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 5px;
+      word-wrap: break-word;
+      max-width: 80%;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 10px;
+      background-color: #f8f9fa;
+    }
+
+    #message-input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #send-btn {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #send-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .emoji-panel {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      overflow-x: auto;
+    }
+
+    .emoji {
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .user-list {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
   </style>
 </head>
 <body>
   <div class="chat-container">
     <div id="chat-box" class="chat-box"></div>
     <div class="input-area">
-      <select id="emoji-picker">
-        <option value="">😊</option>
-        <option value="😂">😂</option>
-        <option value="❤️">❤️</option>
-        <option value="👍">👍</option>
-        <option value="😎">😎</option>
-        <option value="🎉">🎉</option>
-      </select>
-      <input type="text" id="message-input" placeholder="Type a message..." />
-      <button onclick="sendMessage()">Send</button>
+      <input id="message-input" type="text" placeholder="Type your message..." />
+      <button id="send-btn">Send</button>
     </div>
+
+    <div class="emoji-panel" id="emoji-panel">
+    </div>
+
+    <div class="user-list" id="user-list"></div>
   </div>
 
-  <script>
-    const chatBox = document.getElementById('chat-box');
-    const messageInput = document.getElementById('message-input');
-    const emojiPicker = document.getElementById('emoji-picker');
-
-    emojiPicker.addEventListener('change', () => {
-      messageInput.value += emojiPicker.value;
-      emojiPicker.selectedIndex = 0;
-    });
-
-    function sendMessage() {
-      const message = messageInput.value.trim();
-      if (message === '') return;
-
-      const msgDiv = document.createElement('div');
-      msgDiv.classList.add('chat-message');
-      msgDiv.textContent = message;
-      chatBox.appendChild(msgDiv);
-
-      messageInput.value = '';
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    messageInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendMessage();
-    });
-  </script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
